@@ -37,4 +37,6 @@ jobs:
           fi
 
       - name: Building...
-        run: ./code-to-build.sh env.ENV_BY_BRANCH env.ACCESS_KEY, env.ACCESS_SECRET
+        run: |
+          chmod +x ./code-to-build.sh
+          ./code-to-build.sh env.ENV_BY_BRANCH env.ACCESS_KEY, env.ACCESS_SECRET
