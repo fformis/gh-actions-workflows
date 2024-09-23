@@ -20,6 +20,7 @@ jobs:
     env:
       ACCESS_KEY: ${{secrets.ACCESS_KEY}}
       ACCESS_SECRET: ${{secrets.ACCESS_SECRET}}
+      ENV_BY_BRANCH: "init"
     
     steps:
       - name: Checkout code
