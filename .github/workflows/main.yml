@@ -1,0 +1,44 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      evironment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'test'
+        type: choice
+          options:
+            - prod
+            - stage
+            - test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      ACCESS_KEY: ${{secrets.ACCESS_KEY}}
+      ACCESS_SECRET: ${{secrets.ACCESS_SECRET}}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set environment variables
+        id : set-env
+        run: |
+          case ${{ github.event.inputs.environment }} in 
+            prod)
+              echo "ENV_BY_BRANCH=${{ variables.PROD_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+              ;;
+            stage)
+              echo "ENV_BY_BRANCH=${{ variables.STAGE_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+              ;;
+            dev)
+              echo "ENV_BY_BRANCH=${{ variables.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Building...
+        run: ./code-to-build.sh env.ENV_BY_BRANCH env.ACCESS_KEY, env.ACCESS_SECRET
