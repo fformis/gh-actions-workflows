@@ -20,8 +20,7 @@ jobs:
     env:
       ACCESS_KEY: ${{secrets.ACCESS_KEY}}
       ACCESS_SECRET: ${{secrets.ACCESS_SECRET}}
-      
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -30,11 +29,11 @@ jobs:
         id : set-env
         run: |
           if [ ${{ github.workflow_dispatch.inputs.environment }} = "prod" ]; then 
-            echo $ENV_BY_BRANCH = ${{ vars.PROD_ENV_BY_BRANCH }}
+              echo "ENV_BY_BRANCH=${{ vars.PROD_ENV_BY_BRANCH }}" >> $GITHUB_ENV
           elif [ ${{ github.workflow_dispatch.inputs.environment }} = "stage" ]; then 
-            echo $ENV_BY_BRANCH = ${{ vars.STAGE_ENV_BY_BRANCH }}
-          elif [ ${{ github.workflow_dispatch.inputs.environment }} = "dev" ]; then 
-            echo $ENV_BY_BRANCH = ${{ vars.DEV_ENV_BY_BRANCH }}
+              echo "ENV_BY_BRANCH=${{ vars.STAGE_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+          elif [ ${{ github.workflow_dispatch.inputs.environment }} = "test" ]; then 
+              echo "ENV_BY_BRANCH=${{ vars.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
           fi
 
       - name: Building...
