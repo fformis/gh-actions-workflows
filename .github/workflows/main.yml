@@ -8,10 +8,10 @@ on:
         required: true
         default: 'test'
         type: choice
-          options:
-            - prod
-            - stage
-            - test
+        options:
+          - prod
+          - stage
+          - test
 
 jobs:
   deploy:
