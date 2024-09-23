@@ -3,7 +3,7 @@ name: deploy
 on:
   workflow_dispatch:
     inputs:
-      evironment:
+      environment:
         description: 'Environment to deploy'
         required: true
         default: 'test'
@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ACCESS_KEY: ${{secrets.ACCESS_KEY}}
-      ACCESS_SECRET: ${{secrets.ACCESS_SECRET}}
+      ACCESS_KEY: ${{github.repository.secrets.ACCESS_KEY}}
+      ACCESS_SECRET: ${{github.repository.secrets.ACCESS_SECRET}}
     
     steps:
       - name: Checkout code
@@ -28,15 +28,15 @@ jobs:
       - name: Set environment variables
         id : set-env
         run: |
-          case ${{ github.event.inputs.environment }} in 
+          case ${{ github.workflow_dispatch.inputs.environment }} in 
             prod)
-              echo "ENV_BY_BRANCH=${{ variables.PROD_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+              echo "ENV_BY_BRANCH=${{ github.repository.variables.PROD_ENV_BY_BRANCH }}" >> $GITHUB_ENV
               ;;
             stage)
-              echo "ENV_BY_BRANCH=${{ variables.STAGE_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+              echo "ENV_BY_BRANCH=${{ github.repository.variables.STAGE_ENV_BY_BRANCH }}" >> $GITHUB_ENV
               ;;
             dev)
-              echo "ENV_BY_BRANCH=${{ variables.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+              echo "ENV_BY_BRANCH=${{ github.repository.variables.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
               ;;
           esac
 
