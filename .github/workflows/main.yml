@@ -28,17 +28,13 @@ jobs:
       - name: Set environment variables
         id : set-env
         run: |
-          case ${{ github.workflow_dispatch.inputs.environment }} in 
-            prod)
+          if [ ${{ github.workflow_dispatch.inputs.environment }} = "prod" ]; then 
               echo "ENV_BY_BRANCH=${{ github.repository.variables.PROD_ENV_BY_BRANCH }}" >> $GITHUB_ENV
-              ;;
-            stage)
+          elif [ ${{ github.workflow_dispatch.inputs.environment }} = "stage" ]; then 
               echo "ENV_BY_BRANCH=${{ github.repository.variables.STAGE_ENV_BY_BRANCH }}" >> $GITHUB_ENV
-              ;;
-            dev)
+          elif [ ${{ github.workflow_dispatch.inputs.environment }} = "dev" ]; then 
               echo "ENV_BY_BRANCH=${{ github.repository.variables.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
-              ;;
-          esac
+          fi
 
       - name: Building...
         run: ./code-to-build.sh env.ENV_BY_BRANCH env.ACCESS_KEY, env.ACCESS_SECRET
