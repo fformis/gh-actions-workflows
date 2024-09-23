@@ -30,11 +30,11 @@ jobs:
         id : set-env
         run: |
           if [ ${{ github.workflow_dispatch.inputs.environment }} = "prod" ]; then 
-              echo "ENV_BY_BRANCH=${{ vars.PROD_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+            env.ENV_BY_BRANCH=${{ vars.PROD_ENV_BY_BRANCH }}
           elif [ ${{ github.workflow_dispatch.inputs.environment }} = "stage" ]; then 
-              echo "ENV_BY_BRANCH=${{ vars.STAGE_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+            env.ENV_BY_BRANCH=${{ vars.STAGE_ENV_BY_BRANCH }}
           elif [ ${{ github.workflow_dispatch.inputs.environment }} = "dev" ]; then 
-              echo "ENV_BY_BRANCH=${{ vars.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
+            env.ENV_BY_BRANCH=${{ vars.DEV_ENV_BY_BRANCH }}
           fi
 
       - name: Building...
