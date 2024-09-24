@@ -23,8 +23,14 @@ jobs:
       ENV_BY_BRANCH: "init"
     
     steps:
-      - name: Checkout code
+      - name: Checkout actions
         uses: actions/checkout@v2
+
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          repository: fformis/source-repo#{github.event.inputs.environment}
+          path: /source/ 
 
       - name: Set environment variables
         id : set-env
@@ -42,5 +48,5 @@ jobs:
           
       - name: Building...
         run: |
-          chmod +x ./code-to-build.sh
-          ./code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
+          chmod +x ./source/code-to-build.sh
+          ./source/code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
