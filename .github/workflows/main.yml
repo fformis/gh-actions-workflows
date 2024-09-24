@@ -12,6 +12,15 @@ on:
           - prod
           - stage
           - test
+      repository:
+        description: 'Repository to deploy'
+        required: true
+        default: ''
+        type: choice
+        options:
+          - source-repo
+          - source-repo-version2
+
 
 jobs:
   deploy:
@@ -29,7 +38,7 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
         with:
-          repository: fformis/source-repo
+          repository: fformis/${{github.event.inputs.repository}}
           ref: ${{github.event.inputs.environment}}
 
       - name: Set environment variables
