@@ -30,7 +30,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: fformis/source-repo#${{github.event.inputs.environment}}
-          path: / 
 
       - name: Set environment variables
         id : set-env
