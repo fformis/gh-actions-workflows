@@ -29,7 +29,8 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
         with:
-          repository: fformis/source-repo#${{github.event.inputs.environment}}
+          repository: fformis/source-repo
+          ref: ${{github.event.inputs.environment}}
 
       - name: Set environment variables
         id : set-env
