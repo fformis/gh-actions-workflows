@@ -26,17 +26,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build
-        id : set-env-build
+      - name: Set environment variables
+        id : set-env
         run: |
           if [ ${{ github.workflow_dispatch.inputs.environment }} := "prod" ]; then 
-              $ENV_BY_BRANCH = ${{ vars.PROD_ENV_BY_BRANCH }} >> $ENV_BY_BRANCH
+            echo ${{ vars.PROD_ENV_BY_BRANCH }} >> ${{env.ENV_BY_BRANCH}}
           elif [ ${{ github.workflow_dispatch.inputs.environment }} := "stage" ]; then 
-               echo  $ENV_BY_BRANCH = ${{ vars.STAGE_ENV_BY_BRANCH }} >> $ENV_BY_BRANCH
-          elif [ ${{ github.workflow_dispatch.inputs.environment }} :=  "test" ]; then 
-              echo  $ENV_BY_BRANCH = ${{ vars.DEV_ENV_BY_BRANCH }} >> $ENV_BY_BRANCH
+            echo ${{ vars.STAGE_ENV_BY_BRANCH }} >> ${{env.ENV_BY_BRANCH}}
+          elif [ ${{ github.workflow_dispatch.inputs.environment }} := "test" ]; then               
+            echo ${{ vars.DEV_ENV_BY_BRANCH }} >> ${{env.ENV_BY_BRANCH}}
           fi
 
+      - name: Building...
+        run: |
           chmod +x ./code-to-build.sh
-
           ./code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
