@@ -48,5 +48,5 @@ jobs:
           
       - name: Building...
         run: |
-          chmod +x ./source-repo/code-to-build.sh
-          ./source-repo/code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
+          chmod +x ./code-to-build.sh
+          ./code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
