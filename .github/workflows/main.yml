@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: fformis/source-repo#${{github.event.inputs.environment}}
-          path: /source/ 
+          path: / 
 
       - name: Set environment variables
         id : set-env
@@ -48,5 +48,5 @@ jobs:
           
       - name: Building...
         run: |
-          chmod +x ./source/code-to-build.sh
-          ./source/code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
+          chmod +x ./source-repo/code-to-build.sh
+          ./source-repo/code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
