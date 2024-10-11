@@ -72,5 +72,6 @@ jobs:
 
       - name: Building...
         run: |
+          echo "${{ env.BRANCH_NAME }} ${{ env.VERSION }}"
           chmod +x ./code-to-build.sh
-          ./code-to-build.sh ${{ env.BRANCH_NAME }} ${{ env.VERSION }}  ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
+          ./code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
