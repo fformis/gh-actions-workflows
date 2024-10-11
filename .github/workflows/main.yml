@@ -18,7 +18,7 @@ on:
         default: ''
         type: choice
         options:
-          - source-repo
+          - source-repo-version1
           - source-repo-version2
 
 
@@ -30,6 +30,8 @@ jobs:
       ACCESS_KEY: ${{secrets.ACCESS_KEY}}
       ACCESS_SECRET: ${{secrets.ACCESS_SECRET}}
       ENV_BY_BRANCH: "init"
+      VERSION: "0"
+      BRANCH_NAME: ""
     
     steps:
       - name: Checkout actions
@@ -54,8 +56,21 @@ jobs:
             echo "ENV_BY_BRANCH=${{ vars.DEV_ENV_BY_BRANCH }}" >> $GITHUB_ENV
             echo "${{ vars.DEV_ENV_BY_BRANCH }}"
           fi
+          if [ "${{ github.event.inputs.repository }}" == *"version1" ]; then 
+            echo "VERSION="1"" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.repository }}" == *"version2" ]; then 
+            echo "VERSION="2"" >> $GITHUB_ENV
+          fi
           
+          if [ "${{ github.event.inputs.environment }}" == *"ro"* ]; then 
+            echo "BRANCH_NAME=prod" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.environment }}" == "st"* ]; then 
+            echo "BRANCH_NAME=stage" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.environment }}" = *"st" ]; then               
+            echo "BRANCH_NAME=test" >> $GITHUB_ENV
+          fi
+
       - name: Building...
         run: |
           chmod +x ./code-to-build.sh
-          ./code-to-build.sh ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
+          ./code-to-build.sh ${{ env.VERSION }}  ${{ env.ENV_BY_BRANCH }}  ${{ env.ACCESS_KEY }}  ${{ env.ACCESS_SECRET }}
